@@ -4,9 +4,9 @@ using MormorDB.Data;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<MormorDbContext>(options =>
- {
-     options.UseSqlite(builder.Configuration.GetConnectionString("sqlite"));
- });
+{
+    options.UseSqlite(builder.Configuration.GetConnectionString("sqlite"));
+});
 
 builder.Services.AddControllers()
 .AddJsonOptions(options =>

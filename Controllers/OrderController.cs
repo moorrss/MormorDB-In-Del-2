@@ -1,15 +1,24 @@
-﻿namespace MormorDB.Controllers;
-
-using Microsoft.AspNetCore.Http.Connections;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MormorDB.Data;
 using MormorDB.Entities;
 
+namespace MormorDB.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 public class OrderController(MormorDbContext context) : ControllerBase
 {
+    [HttpGet]
+public async Task<ActionResult> GetAll()
+{
+    var orders = await context.Orders
+        .Include(o => o.Customer)
+        .Include(o => o.OrderLines)
+            .ThenInclude(ol => ol.Product)
+        .ToListAsync();
+
+    return Ok(orders);
+}
     [HttpPost]
     public async Task<ActionResult> Create(Order order)
     {
@@ -47,7 +56,6 @@ public class OrderController(MormorDbContext context) : ControllerBase
             .ThenInclude(ol => ol.Product)
             .Where(o => o.OrderDate.Date == orderDate.Date)
             .ToListAsync();
-        if (order is null) return NotFound();
         return Ok(order);
     }
 }
