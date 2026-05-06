@@ -1,0 +1,6 @@
+@MormorDB_HostAddress = http://localhost:5299
+
+GET {{MormorDB_HostAddress}}/api/products
+Accept: application/json
+
+###
