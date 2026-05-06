@@ -1,0 +1,8 @@
+FROM mysql:8.0
+
+ENV MYSQL_ROOT_PASSWORD=mormorpassword
+ENV MYSQL_DATABASE=MormorDB
+ENV MYSQL_USER=mormor
+ENV MYSQL_PASSWORD=mormorpassword
+
+EXPOSE 3306
