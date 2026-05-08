@@ -1,8 +1,16 @@
 services:
-  sqlite:
-    image: alpine
+  mysql:
+    image: mysql:8.0
+    container_name: mormordb-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mormorpassword
+      MYSQL_DATABASE: MormorDB
+      MYSQL_USER: mormor
+      MYSQL_PASSWORD: mormorpassword
+    ports:
+      - '3306:3306'
     volumes:
-      - dbdata:/data
+      - mormordb_data:/var/lib/mysql
 
   mormordb-api:
     image: mormordb:latest
@@ -14,8 +22,8 @@ services:
       - ASPNETCORE_URLS=http://+:8080
     ports:
       - '5299:8080'
-    volumes:
-      - dbdata:/app
+    depends_on:
+      - mysql
 
 volumes:
-  dbdata:
+  mormordb_data:
