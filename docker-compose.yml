@@ -1,0 +1,21 @@
+services:
+  sqlite:
+    image: alpine
+    volumes:
+      - dbdata:/data
+
+  mormordb-api:
+    image: mormordb:latest
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+    ports:
+      - '5299:8080'
+    volumes:
+      - dbdata:/app
+
+volumes:
+  dbdata:
